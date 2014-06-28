@@ -21,10 +21,12 @@ I assume you already have PostGIS and Mapnik installed, and OSM data loaded in a
 An apache user might not have access to the database. There are two ways to fix this. First
 is to start `psql gis` (assuming database is "gis") as `postgres` user and run:
 
-    CREATE USER apache;
-    GRANT CONNECT ON DATABASE gis TO apache;
-    GRANT USAGE ON SCHEMA public TO apache;
-    GRANT SELECT ON ALL TABLES IN SCHEMA public TO apache;
+```sql
+CREATE USER apache;
+GRANT CONNECT ON DATABASE gis TO apache;
+GRANT USAGE ON SCHEMA public TO apache;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO apache;
+```
 
 Or simplier, especially if your apache user is "www-data", just allow user that has reading
 rights access without password, adding `local gis username trust` to `pg_hba.conf` and
@@ -54,10 +56,10 @@ This is how a GPX trace layer is added to Veloroad style:
 <Layer name="route" status="off" srs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">
   <StyleName>route</StyleName>
   <Datasource>
-     <Parameter name="type"><![CDATA[ogr]]></Parameter>
-     <Parameter name="file"><![CDATA[${route:/home/username/whatever/route.gpx}]]></Parameter>
-     <Parameter name="layer"><![CDATA[tracks]]></Parameter>
-     <Parameter name="all_layers"><![CDATA[route_points,routes,track_points,waypoints]]></Parameter>
+     <Parameter name="type">ogr</Parameter>
+     <Parameter name="file">${route:/home/username/whatever/route.gpx}</Parameter>
+     <Parameter name="layer">tracks</Parameter>
+     <Parameter name="all_layers">route_points,routes,track_points,waypoints</Parameter>
   </Datasource>
 </Layer>
 ```

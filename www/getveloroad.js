@@ -93,13 +93,14 @@ function fitToTrace() {
 
 function updateFormat(format) {
 	var fmt = format || document.getElementById('format').value,
-		width = 0; height = 0;
+		width = 0, height = 0,
+		scale = document.getElementById('upx').checked ? 3.54 : 1;
 	if( fmt == 'A4' ) { width = 297; height = 210; }
 	else if( fmt == 'A5' ) { width = 210; height = 148; }
 	else if( fmt == 'A6' ) { width = 148; height = 105; }
 	if( width && height ) {
-		document.getElementById('width').value = width;
-		document.getElementById('height').value = height;
+		document.getElementById('width').value = Math.round(width * scale);
+		document.getElementById('height').value = Math.round(height * scale);
 	}
 }
 

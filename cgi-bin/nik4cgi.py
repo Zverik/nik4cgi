@@ -85,7 +85,7 @@ if cfg.SCALE and 'scale' in form:
 	if re.match('^[0-9.-]+, *[0-9.-]+$', scalepos):
 		options['add-layers'] = ','.join([cfg.ROUTE, cfg.SCALE]) if 'add-layers' in options else cfg.SCALE
 		variables['scale'] = scalepos
-		scalens = re.match('^([1-9])-([1-5][0-9]?)$', form.getfirst('scalens', '5-1'))
+		scalens = re.match('^([1-9])-([1-5][05]?)$', form.getfirst('scalens', '5-1'))
 		variables['scalen'] = scalens.group(1) if scalens else 5
 		variables['scales'] = scalens.group(2) if scalens else 1
 

@@ -10,7 +10,7 @@ window.onload = function() {
 	// layers
 	var veloroad = L.tileLayer('http://tile.osmz.ru/veloroad/{z}/{x}/{y}.png', { attribution: 'Map &copy; OpenStreetMap | Tiles &copy Ilya Zverev' });
 	var osmlayer = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: 'Map &copy; OpenStreetMap' });
-	layers = { 'veloroad': veloroad, 'osm': osmlayer };
+	layers = { 'veloroad': veloroad, 'veloroaden': veloroad, 'osm': osmlayer };
 	map.addLayer(veloroad);
 
 	// map data bounds. Remove if not needed
@@ -37,14 +37,11 @@ window.onload = function() {
 function changeLayer(value) {
 	var found = false;
 	for( layer in layers ) {
-		if( layer == value ) {
-			map.addLayer(layers[layer]);
+		if( layer == value )
 			found = true;
-		} else
-			map.removeLayer(layers[layer]);
+		map.removeLayer(layers[layer]);
 	}
-	if( !found )
-		map.addLayer(layers['osm']);
+	map.addLayer(layers[found ? value : 'osm']);
 }
 
 // Snatched from leaflet.filelayer plugin

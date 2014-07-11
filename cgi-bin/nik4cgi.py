@@ -121,9 +121,34 @@ _, err = process.communicate()
 code = process.returncode
 if code == 0 and os.stat(outputName).st_size > 0:
 	if fmt == 'svg':
+		# run mapnik-group-text
 		mgt = __import__('mapnik-group-text')
 		mgt_opt = { 'dmax': 60, 'group': True }
 		mgt.process_stream(open(outputName, 'rb'), outputName, mgt_opt)
+		# run svn-resize if dimensions are known
+		if 'size' in options or 'size-px' in options:
+			mgt.process_stream(open(outputName, 'rb'), outputName, mgt_opt)
+			svgr = __import__('svg-resize')
+			svgr_opt = {}
+			if 'size' in options:
+				d = options['size'].split(' ')
+				suffix = 'mm'
+			else:
+				d = options['size-px'].split(' ')
+				suffix = 'px'
+			if 'norotate' in options or not d[0] or not d[1]:
+				if d[0]:
+					svgr_opt['width'] = d[0] + suffix
+				if d[1]:
+					svgr_opt['height'] = d[1] + suffix
+			else:
+				svgr_opt['longest'] = max(d[0], d[1]) + suffix
+				svgr_opt['shortest'] = min(d[0], d[1]) + suffix
+			if 'margin' in options:
+				svgr_opt['margin'] = options['margin']
+			svgr_opt['frame'] = True
+			svgr_opt['input'] = outputName
+			svgr.process_stream(svgr_opt)
 	print 'Content-Type: {}'.format(mime)
 	print 'Content-Disposition: attachment; filename={}-{}.{}'.format(style, datetime.datetime.now().strftime('%y%m%d-%H%M'), fmt)
 	print 'Content-Length: {}'.format(os.stat(outputName).st_size)

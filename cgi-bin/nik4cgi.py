@@ -55,7 +55,7 @@ elif 'width' in form or 'height' in form:
 
 	# test for size limit
 	size = dim.split(' ')
-	mult = max(int(dim[0]), int(dim[1]))
+	mult = max(int(size[0]), int(size[1]))
 	mult = mult * mult
 	if 'ppi' in options:
 		mult = mult * 16

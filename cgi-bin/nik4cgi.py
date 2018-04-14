@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # CGI interface to Nik4 with custom properties
 # Tailored to veloroad style, but works with others
 # Written by Ilya Zverev, licensed WTFPL.
